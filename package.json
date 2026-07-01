@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "seed": "node src/scripts/seed.js"
+    "seed": "node src/scripts/seed.js",
+    "test:db": "node src/scripts/test-connection.js",
+    "setup:env": "node src/scripts/setup-env.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
