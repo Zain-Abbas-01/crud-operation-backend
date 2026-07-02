@@ -10,8 +10,8 @@ if (!uri || !uri.startsWith('mongodb')) {
 const envContent = `# MongoDB Atlas
 MONGODB_URI=${uri}
 
-# Frontend URL for CORS
-FRONTEND_URL=http://localhost:5173
+# Frontend URL(s) for CORS (use * for Vercel deploy suffixes)
+FRONTEND_URL=http://localhost:5173,https://crud-operation-frontend*.vercel.app
 
 # Local dev server port
 PORT=5000

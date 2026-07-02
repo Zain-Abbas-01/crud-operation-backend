@@ -5,11 +5,38 @@ function getAllowedOrigins() {
   return raw.split(',').map((origin) => origin.trim()).filter(Boolean)
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function originMatchesPattern(origin, pattern) {
+  if (!pattern.includes('*')) {
+    return origin === pattern
+  }
+
+  const regex = new RegExp(
+    `^${pattern.split('*').map(escapeRegExp).join('.*')}$`,
+  )
+  return regex.test(origin)
+}
+
+function isOriginAllowed(origin, allowed) {
+  if (!origin) {
+    return true
+  }
+
+  if (allowed.includes('*')) {
+    return true
+  }
+
+  return allowed.some((pattern) => originMatchesPattern(origin, pattern))
+}
+
 export const corsMiddleware = cors({
   origin(origin, callback) {
     const allowed = getAllowedOrigins()
 
-    if (!origin || allowed.includes(origin) || allowed.includes('*')) {
+    if (isOriginAllowed(origin, allowed)) {
       callback(null, true)
       return
     }
